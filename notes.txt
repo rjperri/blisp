@@ -2,11 +2,46 @@ Chapter 2
  - to compile a c program: cc -std=c99 -Wall hello_world.c -o hello_world
  - to run a compiled c program: ./hello_world
  
- Chapter 3
+Chapter 3
   - syntax and stuff
   
- Chapter 4 Interactive prompt
+Chapter 4 Interactive prompt
   - compiling with readline edit: cc -std=c99 -Wall prompt.c -ledit -o prompt
   - The C Preprocessor - will allow us to compile for different platforms
     - uses the # and ifdef to help with preprocessing comands
+    
+Chapter 5 Grammer and Such
+    - use of mpc
+  
+Chapter 6 Parsing
+    -Polish Notation
+        - 1 + 2 + 6 is + 1 2 6
+        - Operator always comes first in an expression, followed by either numbers or other expressions in parentheses
+        - a program is an operator followed by one or more expressiohns
+        - where an expression is either a numer, or, in parnentheses, an operator followed by one or more expressions
+        - summary:
+            -"Program" - the start of input, an "Operator", one or more "Expression", and the end of input
+            - "Expression" - either a "Number" or '(', an "Operator", one or more "Expresion", and an ')'
+            - "Operator" - '+', '-', '*', or '/'
+            - "Number" - an optional '-', and one or more charaters between 0 and 9  
+    -Regular Expressions
+        - a way of writing gramer for small sections of text, such as words or numbers
+        -examples:
+            - .         Any Character is required
+            - a         The character a is required
+            - [abcdef]  Any Character in the set abcdef is required
+            - [a-f]     Any character in the range a to f is required
+            - a?        The character a is optional
+            - a*        Zero or more of the character a are required
+            - a+        One or more of the character a are required 
+            - ^         The start of input is required
+            - $         The end of input is required
+            - /         Surrounds the regular expression in mpc
+        - number rule in regular expression: /-?[0-9]+/
+    -Installing mpc
+        - Download mpc.h and mpc.c from repo
+        - place in directory of source file
+        - add '#include "mpc.h"' to sourcde file
+        - linux/Mac compile: cc -std=c99 -Wall parsing.c mpc.c -ledit -lm -o parsing
+        - windows compile: cc -std=c99 -Wall parsing.c mpc.c -o parsing
   
