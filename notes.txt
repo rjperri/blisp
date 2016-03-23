@@ -44,4 +44,88 @@ Chapter 6 Parsing
         - add '#include "mpc.h"' to sourcde file
         - linux/Mac compile: cc -std=c99 -Wall parsing.c mpc.c -ledit -lm -o parsing
         - windows compile: cc -std=c99 -Wall parsing.c mpc.c -o parsing
+        
+chapter 7 Evaluation
+    - Trees
+        - Abstract Syntax Tree - structure of the program based on the input entered by the user
+        - Leaves are numbers and operators - the actual data to be processed
+        - Branches are the rules used to produce this part of the tree - how to traveres and evaluate it
+        - in mpc.h the stuct is called "mpc_ast_t"
+            - typedef struct mpc_ast_t {
+                char* tag;
+                char* contents;
+                mpc_state_t state;
+                int children_num;
+                struct mpc_ast_t** children;
+              } mpc_ast_t;
+            - because we got pointers to structs, to access fields in mpc_ast_t, you need to use '->' operator
+    - recursion
+         - use recursion to traverse the tree
+         - int number_of_nodes(mpc_ast_t* t) {
+            if (t->children_num == 0) {return 1;}
+            if (t->children_num >= 1) {
+                int total = 1;
+                for (int i = 0; i < t->children_num; i++) {
+                    total = total + number_of_nodes(t->children[1]);
+                }
+                return total;
+            }
+           }
+    - Evaluation
+        - use strcmp to check which operator to use
+        - use strstr to check if it contains some substring
+        - atoi to convert a char* to a long  
+  
+chapter 8 Error handling
+    - A lisp can either evaluate to a number or error
+    - handle this we'll use a struct call 'lval' (Lisp Value)
+        typedef struct {
+            int type;
+            long num;
+            int err;
+        } lval;
+    - Enumeration
+        - use enum to know between type num and type error
+        enum { LVAL_NUM, LVAL_ERR };
+        - use enum to know the different errors
+        enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
+    - Lisp Value Functions
+        - Create 2 constructors for lval
+        - one that creates a number lval
+        - one that creates an error lval
+        - use a switch statement to determine how to display lval
+    - Evaluating Errors
+        - during the operator evaluation, do a check for the errors
+            - in the '/' do a check for divison by zero
+            - if the operator is not defined, then return no operator error
+        - during the evaluation check for long overflow
+            - instead of using 'atoi' for the string to long conversion, use strtol
+            - this will assign the variable 'errno' a value of 'ERANGE' if the value is overflowing the long
+        - Just make sure to call the function to display the lval struct
+    - Plumbing
+        - Most of the code thus far has been plumbing code
+        - In the next chapters we'll get into wirting the language!
+        
+        
+            
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   
