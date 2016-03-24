@@ -1,13 +1,15 @@
 Chapter 2
- - to compile a c program: cc -std=c99 -Wall hello_world.c -o hello_world
- - to run a compiled c program: ./hello_world
+    - get c compiler sudo apt-get install build-essential
+    - to compile a c program: cc -std=c99 -Wall hello_world.c -o hello_world
+    - to run a compiled c program: ./hello_world
  
 Chapter 3
-  - syntax and stuff
+    - syntax and stuff
   
 Chapter 4 Interactive prompt
-  - compiling with readline edit: cc -std=c99 -Wall prompt.c -ledit -o prompt
-  - The C Preprocessor - will allow us to compile for different platforms
+    - sudo apt-get install libedit-dev
+    - compiling with readline edit: cc -std=c99 -Wall prompt.c -ledit -o prompt
+    - The C Preprocessor - will allow us to compile for different platforms
     - uses the # and ifdef to help with preprocessing comands
     
 Chapter 5 Grammer and Such
@@ -105,6 +107,84 @@ chapter 8 Error handling
     - Plumbing
         - Most of the code thus far has been plumbing code
         - In the next chapters we'll get into wirting the language!
+        
+Chapter 9 S-Expresions
+    - Lists and Lisps
+        - data and code are the same
+        - S-Expression 
+            - symbolic expression
+            - the program internal structure will need to handle numbers, symbols, and other lists
+    - Pointers
+        - Function calling in C, arguments are always passed by value
+        - pointers allow us to pass by reference. much faster
+        - pointer is just a number that represents an address location
+        - * used to declare a pointer
+        - & used to get the address of a varable
+        - * to get the value of a pointer variable
+        - -> used to get a field from a struct that is a pointer
+    - The Stack and the Heap
+        - two sections of memory used for different tasks
+        - Stack
+            - memory where the program lives
+            - all temporary variables, and data structures exsit
+            - every time a functional call, a new area of the stack is set aside
+            - all the work is done in the stack
+        - Heap
+            - memory for storage of objects with a longer lifespan
+            - memory has to be manually alocated and dealocated
+                - malloc and free
+    - Parsing expressions
+        - Now we'll use S-Expressions instead of polish notation
+        - Use Symbol instead of Operator
+        - Expression is now inclosed in S-Expression aka ()
+    - Espression Structure
+        - lval will need to handle symbols and s-expressions
+        - s-expressions are variable length lists
+            - so create a pointer to field 'cell' points to a list of lval*
+            - need to keep track of how many lval* we have so 'count' field added
+        - symbols and errors will be represented by strings
+        typedef struct lval {
+            int type;
+            long num;
+            char* err;
+            char* sym;
+            int count;
+            struct lval** cell;
+        } lval;
+    - Constructors & Destructors
+        - lval constuctors functions will now need to use malloc and sizeof to create the lval stuctures
+        - When lval is constructed, its fields may contain pointers to other things on the heap
+        - When lval is deleted, we need to use free to dealocate the space
+        - Constructor example:
+            lval* lval_num(long x) {
+                lval* v = malloc(sizeof(lval));
+                v->type = LVAL_NUM;
+                v->num = x;
+                return v;
+            }
+        - Destruction example will be in code
+            - match every construction with a destruction to prevent memory leaks
+    - Reading Expressions
+        - first we read in the program
+        - construct an lval* that represents it all
+        - then evaluate the lval*
+        - First Stage will convert the AST into an S-Expression
+        - Second stage will evaluate the S-Expression
+        - Head's up, in other LISP implemmentations, S-Expressions are represented by linked lists. 
+            - This implementatino is an array list
+            - for simplicity
+    - Printing Expressions
+        - to print an S-Expression loop over all the expressions in an S-Expression and print them seperated by space
+    - Evaluatinf S-Expressions
+        - Transform the lval* to another lval*
+        - example in the code
+        - don't forget to delete!
+     
+        
+        
+           
+        
+        
         
         
             
