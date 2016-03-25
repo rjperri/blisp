@@ -179,6 +179,29 @@ Chapter 9 S-Expresions
         - Transform the lval* to another lval*
         - example in the code
         - don't forget to delete!
+        
+Chapter 10 Q-Expressions
+    - Adding features to a language
+        - Syntax - Add ne rule to the language grammer for this feature
+        - Representation - add new data type variation to represent this feature
+        - Parsing - Add new functions for reading this feature from the AST
+        - Semantics - Add ne functions for evalutating and manipulating this feature
+    - Q-Expression
+        - Quoted Expressions
+        - A lisp Expression that is not evaluated by standard Lisp mechanics
+        - Represented by {} instead of ()
+        - Macros in othe LISP languages
+        - Add 'qexpr' to our language definition
+    - Reading Q-Expressions
+        - Add 'LVAL_QEXPR' Enum
+        - Created a Qexpres constructor
+        - modify deconstructor for Q-Expressions
+        - No need to implement and evalutaion functions for Q-Expressions
+    - Builtin Functions
+        - Add new operators for manipulatinf Q-Expressions
+            - list, head, tail, join, eval
+            - Make them valid symbols in the language definiiotn
+        - Add         
      
         
         
