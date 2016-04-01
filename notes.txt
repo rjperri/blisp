@@ -201,7 +201,110 @@ Chapter 10 Q-Expressions
         - Add new operators for manipulatinf Q-Expressions
             - list, head, tail, join, eval
             - Make them valid symbols in the language definiiotn
-        - Add         
+        - Add  
+        
+Chapter 11 Variables!
+    - Immutabulity
+        - variables will be immuatble
+        - won't change
+        - varibles allow us to name values, and then get a copy of that value
+        - to allow for naming of values we need an environment
+            - environment is structure which stores name and value of everything in program
+            - a new environemnt starts at when a new interactive prompt is created
+        - So what about re-assigning a name to something new
+            - When we re-assign something, the old association will be deleted, and then a new one created
+            - creates the illusion of mutability, but is still imutable
+            - different from C, where the data that is pointed to by the variable is changed
+    - Symbol Syntax
+        - We need to update our symbol grammar to allow for symbols to be any character!
+        - /[a-zA-Z0-9_+\\-*\\/\\\\=<>!&]+/
+    - Function Pointers
+        - because we now have varibles, symbols will no longer represent functions in our language (sad i know)
+        - symbols will now represent a name for us to look up into our environment and get some value back.
+        - need a new value to represent functions
+            - a new type of lval to handle function pointers
+    - Function Pointers
+        - feature of C
+        - allow you to store and pass around pointers to functions
+        - use them to call the function they point to 
+        - builtin functions will now have to handle an extra pointer to the environment lenv*
+        - decalre a new function pointer type called lbuiltin
+        - typedef lval*(*lbuiltin)(lenv*, lval*); 
+            - "to get an lval* we dereference lbuiltin and call it with a lenv* and a lval*"
+            - therefore lbuiltin must be a function pointer that takes an lenv* and a lval* and returns a lval*
+            - that's some mighty BS*
+    - Cyclic Types
+        *lenv references builtin, and vice nersa
+    - Function Type
+        - new lval type LVAL_FUN
+        - new constructor
+            lval* lval_fun(lbuiltin func) {
+                lval* v = malloc(sizeof(lval));
+                v->type = LVAL_FUN;
+                v->fun = func;
+                return v;
+            }
+        - delete: case LVAL_FUN: break;
+        - printing: case LVAL_FUN: printf("<function>"); break;
+        - new function copying an lval
+            - useful for putting things in and taking things out of the environment
+    - Environment
+        - Environment sturcture must encod a list or relationships between names and values
+        struct lenv {
+            int count;
+            char** syms;
+            lval** vals;
+        };
+        - functions to create and delete lenv
+        - functions to get values from the environment and put values into it
+    - Variable Evaluation
+        - Evaluation function depends on some environment
+    -Builtins
+        - Now that evaluation relies on the new function type we need to make sure we can register all of our builtin functions with the environment before we start the interactive prompt
+        - need to change the builtin functions to the correct type
+            - takes in lenv*
+    -Define Function
+        - We've only been able to register our builtins as variables. Still no way for users to define their own
+        - We'll need a special function that can take in variable names in {}
+        - Our define function will take in a list of symbols and a number of valuse and assign each value to each symbol
+        
+ 
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+           
      
         
         
