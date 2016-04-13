@@ -268,6 +268,71 @@ Chapter 11 Variables!
         - We'll need a special function that can take in variable names in {}
         - Our define function will take in a list of symbols and a number of valuse and assign each value to each symbol
         
+Chapter 12: functions!
+    - What is functions?
+        - Description of some computation to be performed later
+            - "when I use this name, that sort of thing should happen"
+            - defined once, but can be called on repeatedly after
+        - Black box that takes some input and produces some output
+        - Partial computation
+    - Overview of implementing functions
+        - write a builtin function that can create user defined functions
+            - First argument can be list of symbols, these symbols we call the formal arguments, aka unbond variables
+            - second argument could be another list. When running the functionhtis is going to be evaluated with builtin eval functions
+        - this function we'll be '\' an homage to Lambda Calculus 
+            - \ {x y} {+ x y}
+            - (\ {x y} {+ x y}) 10 20
+            - def {add-together} (\ {x y} {+ x y})
+                - add-together 10 20
+    - Function Type
+        - LVAL_FUN
+        - redefine lval (again), to handle a args, body, and own environment for function
+            struct lval {
+                int type;
+                /* Basic */
+                long num;
+                char* err;
+                char* sym;
+                
+                /* Function */
+                lbuiltin lbuiltin;
+                lenv* env;
+                lval* formals;
+                lval* body;
+                
+                /* Expression */
+                int count;
+                lval** cell;
+            }; 
+        - create constructor lval_lambda
+            - creates a new environment for lambda
+            - assigns the formals and body values to those passed in 
+        - create deleting, copying, and printing functions
+    - Lambda Function
+        - add builtin for lambda function
+            - takes in a list of symbols, and a list that represents the code
+        - do some error checking
+        - return an lval_lambda();
+    - Parent Environment
+        - The functions have their own environment
+        - Butm we also want them to have access to the parent environment
+        - Change the lenv struct to have a pointer to a parent environemnt
+            struct lenv {
+                lenv* par;
+                int count;
+                char** syms;
+                lval** vals;
+            };
+        - update the constructor, get, copy to use parent
+        - create a new put method to put stuff in the parent environment lenv_def
+        - the local put method will use = operator
+    - Function Calling
+        - We need to bind each of the arguments passed in, to each of the symbols in the formals field
+        - Then we need to evalutae the body, using the env field as an environment
+        - if the there are fewer argunemnts passed into the function, then we could return a partial function instead of throwing an exception
+        
+        
+        
  
       
     
