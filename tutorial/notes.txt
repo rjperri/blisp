@@ -330,6 +330,16 @@ Chapter 12: functions!
         - We need to bind each of the arguments passed in, to each of the symbols in the formals field
         - Then we need to evalutae the body, using the env field as an environment
         - if the there are fewer argunemnts passed into the function, then we could return a partial function instead of throwing an exception
+    - Variable Arguments
+        - Need a way for users to define multiple arguments
+        - going to use the symbol &
+            - {x & xs}
+            - x: will be the first argument
+            - xs; will be a list that holds the rest of the arguments
+        - we'll have to convert the argument list to a q-expression
+        - & must be followed by a real symbol
+        - We will need to change the lval_call() function
+            
         
         
         
